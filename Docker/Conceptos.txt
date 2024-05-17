@@ -1,0 +1,33 @@
+1. ¿Cuál es la principal diferencia entre la contenedorización (como con Docker) y la virtualización (como con VirtualBox)?
+
+La principal diferencia radica en el nivel de virtualización. Docker utiliza la contenedorización, que es más liviana y comparte el núcleo del sistema operativo subyacente, mientras que VirtualBox utiliza la virtualización completa, que crea máquinas virtuales independientes con su propio sistema operativo.
+2. ¿Cuáles son los beneficios de proporcionar una aplicación como imagen de Docker? Nombra al menos dos.
+
+Se obtienen beneficios como la portabilidad, ya que la imagen contiene todas las dependencias necesarias y puede ejecutarse en cualquier entorno Docker compatible. Además, se facilita la replicación del entorno de desarrollo y la distribución de la aplicación de manera consistente.
+3. ¿Se puede ejecutar el demonio Docker de forma nativa en Windows y Linux?
+
+Sí, el demonio Docker se puede ejecutar de forma nativa en Windows y Linux.
+4. ¿Cuál es la diferencia entre una imagen de Docker y un contenedor de Docker?
+
+Una imagen de Docker es una plantilla de solo lectura que contiene el sistema operativo, las bibliotecas y el código de una aplicación, mientras que un contenedor de Docker es una instancia en ejecución de esa imagen.
+5. ¿Qué significa decir que las imágenes de Docker tienen capas?
+
+Significa que las imágenes de Docker están compuestas por múltiples capas, donde cada capa representa un cambio en la imagen, como la instalación de un paquete o la modificación de un archivo. Esto permite la reutilización eficiente de capas y la optimización del almacenamiento.
+6. ¿Cuáles son dos métodos para crear una imagen de Docker?
+
+Dos métodos comunes son utilizar un Dockerfile para definir los pasos necesarios para construir la imagen o realizar un "commit" de un contenedor en ejecución para crear una nueva imagen.
+7. ¿Qué comando se utiliza para crear una imagen de Docker a partir de un Dockerfile?
+
+El comando utilizado para crear una imagen de Docker a partir de un Dockerfile es docker build.
+8. ¿Qué comando se utiliza para ejecutar un contenedor Docker desde una imagen de Docker?
+
+El comando utilizado para ejecutar un contenedor Docker desde una imagen de Docker es docker run.
+En la terminología de Docker, ¿qué significa publicar un puerto?
+
+En la terminología de Docker, publicar un puerto significa que se expone un puerto del contenedor al sistema host, lo que permite que las aplicaciones externas se comuniquen con el contenedor a través de ese puerto.
+9. ¿Qué es un volumen Docker?
+
+Un volumen Docker es un mecanismo para persistir datos generados por contenedores Docker. Se utiliza para compartir datos entre contenedores y para almacenar datos de forma persistente incluso después de que el contenedor se haya detenido o eliminado.
+10. ¿Qué comando se utiliza para enumerar solo los ID de todos los contenedores?
+
+El comando utilizado para enumerar solo los ID de todos los contenedores es docker ps -q.

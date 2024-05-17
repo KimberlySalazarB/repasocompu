@@ -1,0 +1,81 @@
+1. Ejecute process-run.py con las siguientes banderas: -l 5:100,5:100. ¿Cuál debería ser la utilización de la CPU (por ejemplo, el porcentaje de tiempo que la CPU está en uso)? Utiliza las opciones-c y-p para comprobar si has acertado.
+* python3 process-run.py -l 5:100,5:100 -c -p
+* Utilización de la CPU: 100.00%
+##Explicación:
+La CPU está ocupada todo el tiempo, ya que ambos procesos utilizan la CPU continuamente durante su tiempo de ejecución. Cada proceso realiza 5 instrucciones de CPU una tras otra, sumando un total de 10 unidades de tiempo donde la CPU está en uso.
+
+2. Ahora ejecuta con estas banderas: ./process-run.py-l 4:100,1:0. Estas banderas especifican un proceso con 4 instrucciones (todas para usar la CPU), y otro que simplemente emite una E/S y espera a que termine.
+* python3 process-run.py -l 4:100,1:0 -c -p
+¿Cuánto tardan en completarse ambos procesos? Utiliza-c y-p para saber si has acertado.
+* Tiempo total para completar ambos procesos: 11 unidades de tiempo
+##Explicación:
+El primer proceso (PID: 0) realiza 4 instrucciones de CPU y termina en el tiempo 5. El segundo proceso (PID: 1) realiza una instrucción de I/O y bloquea los siguientes la CPU hasta que se complete el I/O en el tiempo 11 se llega a completar el I/O. El proceso completo toma 11 unidades de tiempo debido al tiempo de espera para completar la I/O.
+
+3. Cambia el orden de los procesos:-l 1:0,4:100. ¿Qué ocurre ahora? ¿Es importante cambiar el orden? ¿Por qué? (Como siempre, utiliza-c y-para ver si tenías razón)
+* python3 process-run.py -l 1:0,4:100 -c -p
+* Tiempo total para completar ambos procesos: 7 unidades de tiempo
+Explicación:
+El primer proceso (PID: 0) realiza una instrucción de I/O y espera hasta que termines de compleatar el I/O hasta el tiempo 6. El segundo proceso (PID: 1) realiza 4 instrucciones de CPU consecutivas. El cambio en el orden de los procesos reduce el tiempo total a 7 unidades de tiempo, ya que la CPU se queda inactiva mientras espera a que se complete la I/O.
+
+4. Ahora exploraremos algunas de las otras banderas. Una bandera importante es-S, que determina cómo reacciona el sistema cuando un proceso realiza una E/S. Con la bandera fijada a SWITCH_ON_END, el sistema NO cambiará a otro proceso mientras uno está haciendo una E/S, en en lugar de esperar hasta que el proceso esté completamente terminado. ¿Qué ocurre cuando ejecuta los siguientes dos procesos (-l 1:0,4:100-c-SWITCH ON END), uno haciendo E/S y el otro haciendo trabajo de CPU?
+Flags: -S SWITCH_ON_END configura el sistema para no cambiar de proceso mientras uno está haciendo E/S.
+* python3 process-run.py -l 1:0,4:100 -c -S SWITCH_ON_END -p
+* Resultado: El proceso de E/S bloquea hasta completar, luego el proceso de CPU ejecuta.
+Explicación:
+Con SWITCH_ON_END, el sistema no cambia a otro proceso mientras uno está haciendo I/O. El primer proceso (PID: 0) realiza una instrucción de I/O y el sistema espera hasta que termine (en el tiempo 7) antes de cambiar al segundo proceso (PID: 1) que realiza 4 instrucciones de CPU. Esto resulta en un tiempo total de 11 unidades.
+
+5. Ahora, ejecuta los mismos procesos, pero con el comportamiento de cambio configurado para cambiar a otro proceso siempre que uno esté ESPERANDO por E/S (-l 1:0,4:100 -c -S SWITCH_ON_IO). ¿Qué sucede ahora? Utiliza las banderas -c y -p para confirmar que tienes razón.
+* python3 process-run.py -l 1:0,4:100 -c -S SWITCH_ON_IO -c -p
+* Utilización de la CPU: 85.71%
+* Utilización de la I/O: 71.43%
+Explicación:
+Este resultado muestra que al cambiar a otro proceso cuando uno está esperando por E/S, la CPU se utiliza de manera más eficiente, reduciendo el tiempo total necesario para completar ambos procesos en comparación con la configuración SWITCH_ON_END.
+###############################
+
+* python3 process-run.py -l 1:0,4:100 -c -S SWITCH_ON_END -p
+5.4 Explicación:
+Con SWITCH_ON_END, el sistema no cambia a otro proceso mientras uno está haciendo I/O. El primer proceso (PID: 0) realiza una instrucción de I/O y el sistema espera hasta que termine (en el tiempo 7) antes de cambiar al segundo proceso (PID: 1) que realiza 4 instrucciones de CPU. Esto resulta en un tiempo total de 11 unidades.
+
+* python3 process-run.py -l 1:0,4:100 -c -S SWITCH ON IO -p
+5.5 Explicación:
+Con SWITCH_ON_IO, el sistema cambia a otro proceso siempre que uno está esperando por I/O. Esto permite que el segundo proceso (PID: 1) realice sus 4 instrucciones de CPU mientras el primer proceso (PID: 0) espera que se complete la I/O. El tiempo total es de 7 unidades, mejorando la utilización de los recursos del sistema.
+###########################################
+
+6. Otro comportamiento importante es qué hacer cuando se completa una E/S. Con -I IO RUN LATER, cuando se completa una E/S, el proceso que la emitió no se ejecuta necesariamente de inmediato; en su lugar, lo que se estaba ejecutando en ese momento continúa ejecutándose.¿Qué sucede cuando ejecutas esta combinación de procesos? (./process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH ON IO -c -p -I IO_RUN_LATER) ¿Se están utilizando eficazmente los recursos del sistema?
+* python3 process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH_ON_IO -c -p -I IO_RUN_LATER
+Explicación:
+El uso de IO_RUN_LATER en este escenario provoca una utilización menos eficiente de los recursos del sistema. La CPU está ocupada el 67.74% del tiempo, y la E/S está ocupada el 48.39% del tiempo. Esto se debe a que, después de completar una E/S, el proceso no se reanuda de inmediato, lo que causa demoras y puede resultar en tiempos de espera innecesarios.
+
+7. Ahora ejecuta los mismos procesos, pero con -I IO RUN IMMEDIATE establecido, lo que ejecuta inmediatamente el proceso que emitió la E/S. ¿En qué se diferencia este comportamiento? ¿Por qué podría ser una buena idea ejecutar un proceso que acaba de completar una E/S de nuevo?
+*python3 process-run.py -l 3:0,5:100,5:100,5:100 -S SWITCH_ON_IO -c -p -I IO_RUN_IMMEDIATE
+*Resultado: Mejora la utilización de recursos, procesos ejecutan inmediatamente tras completar E/S.Evita que la CPU permanezca inactiva,Garantiza que los recursos del sistema se utilicen de manera eficiente.
+*Tiempo =21
+*Utilización de la CPU: 100.00%
+* Utilización de la I/O: 71.43%
+*Explicación:
+Cuando se utiliza la bandera -I IO_RUN_IMMEDIATE, después de que se completa una operación de E/S, el proceso que emitió la E/S se ejecuta de inmediato. Esto garantiza que el proceso no se quede esperando innecesariamente después de completar su E/S, lo que puede llevar a una mejor utilización de los recursos del sistema y a una menor latencia para los procesos dependientes de E/S.
+
+
+8. Ahora ejecuta algunos procesos generados aleatoriamente usando las banderas -s 1 -l 3:50,3:50 o -s 2 -l 3:50,3:50 o -s 3 -l 3:50,3:50. Ve si puedes predecir cómo resultará la traza. ¿Qué sucede cuando usas la bandera -I IO RUN IMMEDIATE en comparación con la bandera -I IO RUN LATER? ¿Qué sucede cuando usas la bandera -S SWITCH ON IO en comparación con -S SWITCH ON END?
+
+* python3 process-run.py -s 1 -l 3:50,3:50 -c -p
+* python3 process-run.py -s 2 -l 3:50,3:50 -c -p
+* python3 process-run.py -s 3 -l 3:50,3:50 -c -p
+
+Observaciones:
+*Utilización de la CPU de las semillas
+Semilla 1: 53.33%
+Semilla 2: 62.50%
+Semilla 3: 50.00%
+#################################
+*python3 process-run.py -s 1 -l 3:50,3:50 -c -p -I IO_RUN_IMMEDIATE  
+*python process-run.py -s 1 -l 3:50,3:50 -c -p -I IO_RUN_LATER
+
+* Variabilidad: El tiempo total son iguales es de 15 unidades de tiempo
+*La diferencia entre estas dos banderas radica en cómo se programa la ejecución del proceso que emite una operación de E/S: inmediatamente después de la emisión (IO RUN IMMEDIATE) o después de un breve retraso (IO RUN LATER). En ambos casos, el tiempo total de ejecución y las estadísticas de utilización de recursos son similares.
+############################
+* python process-run.py -s 2 -l 3:50,3:50 -S SWITCH_ON_IO -c -p  #TIEMPO=16
+* python process-run.py -s 2 -l 3:50,3:50 -S SWITCH_ON_END -c -p  #TIEMPO=30
+ 
+*La diferencia principal radica en cómo se manejan las operaciones de E/S y los cambios de contexto entre procesos. Con -S SWITCH ON IO, se optimiza el tiempo de CPU cambiando inmediatamente a otro proceso que esté listo para ejecutarse, mientras que con -S SWITCH ON END, se espera a que los procesos terminen antes de cambiar, lo que puede llevar a una menor utilización de la CPU y un tiempo total de ejecución más largo.
+

@@ -1,0 +1,89 @@
+Creación de una Imagen de Docker (Paso a Paso)
+1. Creación de Dockerfile
+El Dockerfile es el archivo donde se definen las instrucciones para construir una imagen de Docker. Comienza creando un archivo de texto llamado "Dockerfile" en tu directorio de proyecto.
+
+2. Definir dependencias
+En el Dockerfile, se especifican las dependencias necesarias para tu aplicación.
+
+3. Copiar código de aplicación
+Se usa la instrucción COPY para copiar archivos y directorios a la imagen de Docker.
+
+4. Configuración de ajustes
+Se configuran las variables de entorno usando la instrucción ENV.
+
+5. Exponer puertos (si es necesario)
+La instrucción EXPOSE se utiliza para indicar qué puertos serán accesibles desde el contenedor.
+
+6. Definir Comando de inicio
+Se usa CMD o ENTRYPOINT para definir el comando que se ejecutará cuando el contenedor comience.
+
+5. Probando la instalación de Docker 
+docker info
+
+7. Construir la imagen de Docker
+El comando docker build se usa para construir la imagen a partir del Dockerfile.
+* docker build -t mi-app-imagen:1.0 .
+*$ docker build -t hola-python .
+* "-t" etiqueta la imagen con un nombre y una versión.
+* "." indica el directorio actual como contexto de construcción.
+
+8. Probar la Imagen
+El comando docker run se usa para ejecutar un contenedor basado en la imagen creada.
+* docker run -it mi-app-imagen:1.0
+* "-it" permite la interacción con el contenedor.
+*$ docker search mongo
+*$ docker run hola-python
+
+
+8. para ver si la imagen está presente
+*$docker images
+
+17. Para ejecutar un contenedor en segundo plano, podemos usar la opción -d (--detach).
+Intentémoslo con la imagen de ubuntu, de la siguiente manera:
+$ docker run -d -t ubuntu:20.04
+
+9. Push la Imagen (Opcional)
+El comando docker push se usa para subir la imagen a un registro de contenedores.
+* docker push mi-usuario/mi-app-imagen:1.0
+
+10. Eliminar contenedores
+Eliminar un contenedor en específico:
+* docker rm <contenedor_id>, "para ver el id usa ps o ps -a"  #$ docker ps
+Eliminar todos los contenedores detenidos:
+* docker container prune
+Forzar la eliminación de un contenedor en ejecución:
+* docker rm -f <contenedor_id>, usamos "-f" para forzar la eliminación
+
+11. Eliminar imágenes
+Eliminar una imagen específica:
+* docker rmi <imagen_id>, para ver las imagenes usa "docker images"
+Eliminar todas las imágenes no utilizadas:
+* docker image prune
+Eliminar todas las imágenes:
+* docker rmi $(docker images -q)
+
+12. Eliminar todo (contenedores, imágenes, volúmenes y redes no utilizadas)
+Eliminar todos los contenedores, imágenes y volúmenes:
+* docker system prune -a --volumes
+
+EXTRA:
+Todos los comandos de Docker se pueden encontrar ejecutando el siguiente comando de ayuda:
+* docker help
+Para ver todas las opciones de cualquier comando de Docker en particular, podemos usar la ayuda de
+docker help <comando>, como en el siguiente ejemplo:
+* docker help run
+
+Comandos para Gestionar Puertos
+13. Verificar qué servicios están escuchando en un puerto específico (Linux)
+* sudo netstat -tuln | grep <puerto>
+Usar lsof:
+* sudo lsof -i:<puerto>
+Usar ss:
+* sudo ss -tuln | grep <puerto
+
+14. Ver todos los puertos abiertos y servicios en escucha
+Usar netstat:
+* sudo netstat -tuln
+Usar ss:
+* sudo ss -tuln
+

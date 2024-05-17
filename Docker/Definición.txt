@@ -1,0 +1,20 @@
+$ docker run hello-world
+Examinemos lo que sucedió debajo del capó, de la siguiente manera:
+1. Se ejecutó el cliente de Docker con el comando run.
+2. El cliente de Docker se puso en contacto con el demonio de Docker y le pidió que creara un
+contenedor a partir de la imagen llamado hello-world.
+3. El demonio Docker verificó si contenía la imagen hello-world local y, como no lo hizo, solicitó la
+imagen hello-world del registro remoto de Docker Hub.
+4. El registro de Docker Hub contenía la imagen hello-world, por lo que se le pasa al demonio de
+Docker.
+5. El demonio de Docker creó un nuevo contenedor a partir de la imagen hello-world que inició el
+ejecutable y produjo la salida.
+6. El demonio de Docker transmitió esta salida al cliente de Docker.
+7. El cliente Docker lo envió al Terminal.
+El flujo proyectado se representa en el siguiente diagrama:
+Veamos ahora cada componente de Docker que se ilustró en esta sección.
+Componentes Docker
+Docker es en realidad un ecosistema que incluye una serie de componentes. Vamos a describirlos todos,
+comenzando con una mirada más cercana a la arquitectura
+Cliente Docker y servidor
+Docker cliente y servidor Veamos el siguiente diagrama, que presenta la arquitectura de Docker Engine:

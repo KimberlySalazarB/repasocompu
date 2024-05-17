@@ -1,0 +1,35 @@
+Un programa en ejecución hace una cosa muy simple: ejecuta instrucciones. Muchos millones (y en estos días, incluso miles de millones) de veces por segundo, el procesador obtiene una instrucción de la memoria y la decodifica.
+
+Ese conjunto de software se denomina sistema operativo (SO) 3, ya que se encarga de asegurarse de que el sistema funcione de manera fácil y correcta y eficiente.
+
+Virtualización. Es decir, el sistema operativo toma un recurso físico (como el procesador, la memoria o un disco) y lo transforma en una forma virtual más general, potente y fácil de usar.
+
+La virtualización permite que muchos programas se ejecuten (compartiendo así la CPU), y muchos programas accedan simultáneamente a sus propias instrucciones y datos (compartiendo así la memoria),a veces se le conoce como administrador de recursos.
+
+Cada una de las CPU, memoria y disco es un recurso del sistema, por lo tanto, el rol del sistema operativo es administrar esos recursos.
+
+**Spin (), una función que verifica repetidamente el tiempo y regresa una vez que se ha ejecutado por un segundo.
+
+el sistema comienza a ejecutar el programa, que verifica repetidamente el tiempo hasta que haya transcurrido un segundo. Una vez que ha pasado un segundo, el código imprime la cadena de entrada pasada por el usuario (en este ejemplo, la letra "A") y continúa.
+
+
+Convertir una sola CPU (o un pequeño conjunto de ellas) en un número aparentemente infinito de CPU y, por lo tanto, permitir que muchos programas se ejecuten a la vez es lo que llamamos ##virtualizar la CPU##.
+
+Las API de hecho, son la forma principal en que la mayoría de los usuarios interactúan con los sistemas operativos.
+
+
+La memoria es solo una matriz de bytes.Un programa mantiene todas sus estructuras de datos en la memoria y accede a ellas a través de varias instrucciones.No olvide que cada instrucción del programa también está en la memoria.
+
+
+Partimos de esa pregunta para hablar de concurrencia. Usamos este término conceptual para referirnos a una serie de problemas que surgen y deben abordarse cuando se trabaja en muchas cosas a la vez (es decir, simultáneamente) en el mismo programa.
+
+
+Persistencia
+Como almacenar los datos persistentemente
+El sistema de archivos es la parte del sistema operativo a cargo de administrar los datos persistentes.
+El hardware viene en forma de algún tipo de entrada/salida o dispositivos E/S
+
+El software en el sistema operativo que generalmente administra el disco se llama sistema de archivos. Por lo tanto, es responsable de almacenar cualquier archivo que el usuario cree de manera confiable y eficiente en los discos del sistema. 
+
+
+Un último problema surge al construir un planificador de caché multiprocesador, conocido como afinidad de caché .
